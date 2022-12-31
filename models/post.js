@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-const UserSchema = new mongoose.Schema(
+const PostSchema = new mongoose.Schema(
     {
         title: {
             type: String,
@@ -14,7 +14,6 @@ const UserSchema = new mongoose.Schema(
         tags: {
             type: Array,
             default: [],
-
         },
         viewsCount: {
             type: Number,
@@ -28,9 +27,10 @@ const UserSchema = new mongoose.Schema(
         },
         imageUrl: String,
     },
+        
     {
         timestamps: true,
     },
 );
 
-export default mongoose.model('Post', UserSchema)
+export default mongoose.model('Post', PostSchema)

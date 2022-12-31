@@ -14,11 +14,14 @@ export const create = async (req, res) => {
 
         res.json(post)
     } catch (err) {
+        console.log(err)
         res.status(500).json({
             message: 'Не удалаось создать статью',
         })
     };
 }
+
+
 
 export const getLastTags = async (req, res) => {
     try {
@@ -51,9 +54,9 @@ export const getAll = async (req, res) => {
     }
 }
 
-export const getAllPopulate = async (req, res) => {
+export const getUserPosts = async (req, res) => {
     try {
-        const posts = await PostModel.find().populate('user').sort({viewsCount:-1}).exec();
+        const posts = await PostModel.find().populate('user').filter(items => items.user._id ).exec();
 
         res.json(posts);
     } catch (err) {
@@ -67,6 +70,9 @@ export const getAllPopulate = async (req, res) => {
 export const getOne = async (req, res) => {
     try {
         const postId = req.params.id;
+        console.log(req)
+
+
 
         PostModel.findByIdAndUpdate(
             {
@@ -146,6 +152,7 @@ export const remove = async (req, res) => {
 export const update = async (req, res) => {
     try {
         const postId = req.params.id;
+        console.log(postId, "postId")
 
         await PostModel.updateOne(
             {
@@ -155,15 +162,15 @@ export const update = async (req, res) => {
                 title: req.body.title,
                 text: req.body.text,
                 imageUrl: req.body.imageUrl,
-                tags: req.body.tags,
+                tags: req.body.tags.split(','),
                 user: req.userId,  
-            }
+            },
         )
-
         res.json({
-            success: true,
+            success:true
         })
     } catch (err) {
+        console.log(err)
         res.status(500).json({
             message: 'Не удалаось обновить статью',
         })

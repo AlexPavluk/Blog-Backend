@@ -6,10 +6,11 @@ export default (req, res, next) => {
     if (token) {
         try {
            const decodet = jwt.verify(token, 'secret123');
-           
            req.userId =  decodet._id;
+           console.log(decodet, 'decodet')
            next();
         } catch (e) {
+            console.log(e)
            return res.status(403).json({
             message: 'Нет доступа'
            }); 
